@@ -1,35 +1,573 @@
-<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="data:,"><title>あなたに合うAI副業診断</title><meta name="description" content="8問の回答から、先に試すAI副業候補を2つ選び、実作業まで試せます。"><style>
-:root{--ink:#24221f;--paper:#f7f3ea;--card:#fffdf8;--burg:#772b45;--olive:#667044;--line:#d8d0c2;--soft:#eee7da}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;line-height:1.8}a{color:var(--burg)}button{font:inherit}.wrap{width:min(100% - 32px,1040px);margin:auto}.hero{padding:52px 0 30px}.eyebrow{font-weight:800;color:var(--burg);letter-spacing:.08em}.hero h1{font-size:clamp(34px,7vw,70px);line-height:1.1;margin:.2em 0}.lead{font-size:clamp(18px,2.4vw,24px);max-width:760px}.five{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:28px 0}.five span{background:var(--card);border:1px solid var(--line);border-top:5px solid var(--olive);padding:14px 8px;text-align:center;font-weight:700}.panel{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:clamp(20px,4vw,42px);margin:24px 0}.panel h2{font-size:clamp(26px,4vw,42px);line-height:1.25;margin:0 0 12px}.start{display:flex;gap:14px;flex-wrap:wrap}.primary,.secondary,.copy{border:0;border-radius:999px;min-height:50px;padding:11px 22px;font-weight:800;cursor:pointer}.primary{background:var(--burg);color:white}.secondary{background:var(--soft);color:var(--ink)}.progress{height:8px;background:var(--soft);border-radius:99px;overflow:hidden}.progress i{display:block;height:100%;background:var(--olive)}.answers{display:grid;gap:12px;margin:20px 0}.answer{display:flex;text-align:left;gap:12px;width:100%;padding:16px;border:2px solid var(--line);border-radius:14px;background:white;cursor:pointer}.answer:hover,.answer:focus-visible{border-color:var(--burg);outline:3px solid #772b4533}.answer b{color:var(--burg)}.nav{display:flex;justify-content:space-between;gap:12px}.hidden{display:none!important}.result-head{border-left:8px solid var(--burg);padding-left:18px}.cards{display:grid;gap:24px}.job{background:var(--card);border:1px solid var(--line);border-radius:22px;overflow:hidden}.job img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}.job-body{padding:clamp(18px,4vw,34px)}.rank{display:inline-block;background:var(--burg);color:#fff;border-radius:99px;padding:4px 12px;font-weight:800}.reason{background:#f1f1e8;border-left:5px solid var(--olive);padding:14px 18px}.sample,.prompt{white-space:pre-wrap;background:#292724;color:#fff;border-radius:14px;padding:18px;line-height:1.65;font-size:14px}.prompt{background:#f1ede5;color:var(--ink);border:1px solid var(--line)}.copy{background:var(--olive);color:white}.checks{padding-left:1.2em}.next{display:inline-flex;background:var(--burg);color:white;text-decoration:none;padding:12px 18px;border-radius:10px;font-weight:800}.future{background:var(--soft);padding:14px;border-radius:12px}.note{font-size:14px;color:#625f58}.controls{display:flex;gap:12px;flex-wrap:wrap;margin:28px 0}.print-only{display:none}@media(max-width:620px){.wrap{width:min(100% - 24px,1040px)}.hero{padding-top:28px}.five{grid-template-columns:1fr 1fr}.five span:last-child{grid-column:1/-1}.panel{border-radius:16px}.job-body{padding:18px}.start>*{width:100%}.controls>*{width:100%}}@media print{body{background:white}.hero,.quiz,.controls,.copy{display:none!important}.wrap{width:100%}.job{break-inside:avoid}.print-only{display:block}}
-</style><style>.hero-cover{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:18px;margin:24px 0 18px}.hero-start{margin:18px 0 8px}details summary{font-size:clamp(22px,3vw,30px);font-weight:800;cursor:pointer}@media(max-width:620px){.hero-cover{border-radius:12px}.hero-start .primary{width:100%}}</style></head><body><main class="wrap"><header class="hero"><p class="eyebrow">AI副業の候補を、作業から選ぶ</p><h1>私には、<br>どんな副業ができる？</h1><p class="lead">AIで仕事ができると言われても、種類が多いと選べないですよね。</p><p>8問の答えから「先に試す候補」を2つ出し、そのまま短い課題まで試せます。</p><div class="hero-start"><button class="primary" id="start">8問に答える</button></div><img class="hero-cover" src="assets/display/02-ai-sidejob-diagnosis-v7.jpg" alt="AI副業診断 8問で、試す仕事を見つけよう"><div class="five" aria-label="5つの候補"><span>SNS投稿文</span><span>AIデザイン</span><span>商品説明</span><span>問い合わせ返信</span><span>動画編集</span></div></header>
-<section class="panel intro" id="intro"><h2>結果の下から、そのまま試せます。</h2><p>1位と2位、回答から選ばれた理由、実際に作るもの、今の端末で試せる課題、次に読む特典まで表示します。違うと感じたら回答を変えて選び直せます。</p></section>
-<section class="panel quiz hidden" id="quiz" aria-live="polite"><p id="qcount"></p><div class="progress"><i id="bar"></i></div><h2 id="qtitle"></h2><p id="qnote" class="note"></p><div class="answers" id="answers"></div><div class="nav"><button class="secondary" id="back">前の質問へ</button><span></span></div></section>
-<details class="panel" id="how"><summary>結果の読み方</summary><p>1位と2位は、仕事の合格判定ではありません。回答に近い練習を先に並べます。理由には、あなたが実際に選んだ回答を2つまで表示します。回答していない内容は理由に使いません。</p></details>
-<section id="results" class="hidden"><div class="panel result-head"><p class="eyebrow">あなたが先に試す候補</p><h2>1位と2位を、実作業で比べてみましょう。</h2><p>点数より「やってみて続けやすいか」を見ます。どちらか1つの課題を保存できれば、今日の診断は完成です。</p></div><div class="cards" id="resultCards"></div><div class="controls"><button class="primary" id="revise">8問目から回答を見直す</button><button class="secondary" id="restart">最初からやり直す</button><button class="secondary" onclick="window.print()">結果を保存・印刷</button></div></section></main>
-<script>
-const qs=[
-['作るなら、どちらが気になりますか？',['文章を整える','写真や色を整える','どちらも試したい']],
-['人からの質問へ答える作業は、どう感じますか？',['苦にならない','内容による','別の作業から試したい']],
-['最初の練習に使えそうな時間は？',['短い時間に分けたい','まとまった時間を取れる','長めの時間を取れる'],'これは診断の所要時間ではなく、普段の練習へ使えそうな時間です。'],
-['AIの答えを、元の資料と見比べる作業は？',['1つずつ確認したい','見本があれば確認できそう','まず見た目や流れから確認したい']],
-['色や写真の組み合わせを考えてみたいですか？',['考えてみたい','少しなら試したい','文章を優先したい']],
-['音声に合わせて、字幕や画像を選ぶ作業は？',['興味がある','少し興味がある','文章や静止画から始めたい']],
-['主に使える端末は？',['スマホだけ','スマホとパソコン','パソコン中心']],
-['最初に、どれを完成させたいですか？',['SNSへ載せる短い文章','文字入りの告知画像','商品やサービスの説明','問い合わせへの返信','字幕つきの短い動画']]
-];
-const jobs={
-sns:{name:'SNS投稿サポート',img:'assets/display/result-sns-v1.jpg',alt:'カフェ情報4項目からSNS紹介文と投稿カードへまとめる完成イメージ',work:'お店やサービスの情報を、SNSで読みやすい短い文章へまとめます。',input:'お店：架空の喫茶店「はな」\n特徴：手作りケーキと紅茶\n読んでほしい人：50代以上の女性\n雰囲気：落ち着いていて上品',future:'手作りケーキと紅茶を、ゆっくり楽しめる架空の喫茶店「はな」。落ち着いた時間を過ごしたい日に選びやすい、上品な雰囲気のお店です。',prompt:'次の架空のお店情報だけを使い、SNSへ載せる短い紹介文を3案作ってください。\n難しい言葉は使わず、落ち着いた文章にしてください。\n入力にない営業時間、場所、価格、サービスは足さないでください。\n\nお店：架空の喫茶店「はな」\n特徴：手作りケーキと紅茶\n読んでほしい人：50代以上の女性\n雰囲気：落ち着いていて上品',check:['4項目が合っている','入力にない価格や場所を足していない','好きな1案をメモへ保存した'],device:'スマホから試せます。',url:'https://yuuyann0318.github.io/ai-fukugyo-startbook-50/#job-sns'},
-design:{name:'AIデザインサポート',img:'assets/display/result-design-v1.jpg',alt:'秋の植物市の背景と情報配置を考える完成イメージ',work:'行事やお店の情報を、1枚の告知画像へまとめます。',input:'行事名：秋の植物市\n日付：11月8日\n時間：10:00〜15:00\n場所：緑の広場\n参加費：無料',future:'将来像：上に「秋の植物市」、中央に植物の写真、下に日時・場所・参加無料を置いた告知画像。今回の課題は、5項目を載せる順番のメモまでです。',prompt:'次の架空の行事情報を、告知画像1枚へ載せる順番に並べてください。\n一番大きくする文字、次に見せる情報、下にまとめる情報へ分けてください。\n入力にない日付、場所、参加条件は足さないでください。\n\n行事名：秋の植物市\n日付：11月8日\n時間：10:00〜15:00\n場所：緑の広場\n参加費：無料',check:['5項目が3つの役割に分かれた','入力にない条件を足していない','並べ順と元の5項目を1つのメモへ保存した'],device:'並べ順はスマホで試せます。画像完成は次の特典で進めます。',url:'https://yuuyann0318.github.io/ai-fukugyo-startbook-50/#job-design'},
-product:{name:'商品説明サポート',img:'assets/display/result-product-v1.jpg',alt:'バジル栽培セットの4点を確認し商品説明へまとめる完成イメージ',work:'商品の事実資料から、説明文と確認事項を作ります。',input:'商品：窓辺のバジル栽培セット\n内容：鉢1個、培養土1袋、種1袋、育て方カード1枚\n未確認：鉢の実寸、種の量、返品条件',future:'室内向けのバジル栽培セットです。分からない項目は言い切らず、確認事項へ残します。',prompt:'次の架空の商品情報だけを使い、短い商品説明を作ってください。\n未確認の内容は推測せず、説明と確認事項を分けてください。\n\n商品：窓辺のバジル栽培セット\n内容：鉢1個、培養土1袋、種1袋、育て方カード1枚\n未確認：鉢の実寸、種の量、返品条件',check:['4つの内容が説明にある','未確認3項目を言い切っていない','説明と確認事項をメモへ保存した'],device:'スマホでも試せます。複数件の表保存はパソコンが進めやすいです。',url:'https://yuuyann0318.github.io/ai-fukugyo-startbook-50/#job-product'},
-reply:{name:'問い合わせ返信サポート',img:'assets/display/result-reply-v1.jpg',alt:'問い合わせと確認済み事実から返信案と確認事項を分ける完成イメージ',work:'問い合わせと確認済み案内を分けて、返信の下書きを作ります。',input:'質問：道具がなくても参加できますか。キャンセル方法も知りたいです。\n確認済み：道具は会場で用意／2日前までに申込メールへ返信\n未確認：空席',future:'確認できている2点だけを回答し、空席は確認事項として残す返信案です。',prompt:'次の架空の問い合わせへ、確認済みの案内だけで返信の下書きを作ってください。\n空席は未確認なので、参加できると言い切らないでください。\n\n質問：道具がなくても参加できますか。キャンセル方法も知りたいです。\n確認済み：道具は会場で用意／キャンセルは2日前までに申込メールへ返信\n未確認：空席',check:['質問2点へ答えている','空席を言い切っていない','返信案をメモへ保存した'],device:'スマホから試せます。顧客へ自動送信はしません。',url:'https://yuuyann0318.github.io/ai-fukugyo-startbook-50/#job-reply'},
-video:{name:'AI動画編集サポート',img:'assets/display/result-video-v1.jpg',alt:'音声、台本、字幕、画像が動画タイムラインへ並ぶ完成イメージ',work:'音声に合わせて字幕と画像を置き、縦動画へまとめます。',input:'台本：朝のカフェで、焼きたてのパンを楽しむ時間を紹介\n素材：自分の音声／使ってよいカフェ画像／背景動画',future:'将来像：音声、時刻付き字幕、意味の合う画像を合わせた縦MP4。今回の課題は台本の3場面分けまでです。',prompt:'次の架空の短い台本を、縦動画の3場面に分けてください。\n各場面に「短い字幕」と「合う画像」を1つずつ書いてください。\n台本にない店名、場所、価格は足さないでください。\n\n台本：朝のカフェで、焼きたてのパンを楽しむ時間を紹介します。飲み物を選び、窓辺の席でゆっくり味わいます。',check:['3場面に分かれた','字幕と画像案が1つずつある','台本にない事実がない','場面案をメモへ保存した'],device:'場面分けはスマホで試せます。動画書き出しは検証済みMac環境が必要です。',url:'https://yuuyann0318.github.io/ai-fukugyo-startbook-50/#job-video'}
-};
-let step=0,answers=[];const order=['sns','design','product','reply','video'];
-const weights=[[[3,0,2,2,0],[0,4,0,0,2],[2,2,2,1,1]],[[1,0,0,4,0],[1,0,1,2,0],[1,2,2,0,2]],[[2,1,2,2,1],[1,2,3,2,2],[0,2,3,1,4]],[[2,0,3,3,1],[1,1,2,2,2],[1,3,0,0,3]],[[0,4,0,0,2],[0,2,0,0,1],[3,0,2,2,0]],[[0,1,0,0,4],[1,1,0,0,2],[2,1,2,2,0]],[[2,2,1,2,0],[2,3,3,2,3],[1,3,4,3,4]],[[5,0,0,0,0],[0,5,0,0,0],[0,0,5,0,0],[0,0,0,5,0],[0,0,0,0,5]]];
-function showQ(n){step=n;document.querySelector('#intro').classList.add('hidden');document.querySelector('#results').classList.add('hidden');document.querySelector('#quiz').classList.remove('hidden');qcount.textContent=`質問 ${n+1} / 8`;bar.style.width=`${(n+1)/8*100}%`;qtitle.textContent=qs[n][0];qnote.textContent=qs[n][2]||'';answersEl.innerHTML='';qs[n][1].forEach((t,i)=>{const b=document.createElement('button');b.className='answer';b.innerHTML=`<b>${i+1}</b><span>${t}</span>`;b.onclick=()=>{answers[n]=i;n<7?showQ(n+1):finish()};answersEl.append(b)});back.disabled=n===0;back.onclick=()=>showQ(n-1);quiz.scrollIntoView({behavior:'smooth',block:'start'})}
-const answersEl=document.querySelector('#answers');
-function finish(){const score=[0,0,0,0,0];answers.forEach((a,q)=>weights[q][a].forEach((v,j)=>score[j]+=v));const ranked=order.map((k,i)=>({k,s:score[i]})).sort((a,b)=>b.s-a.s||((answers[7]===order.indexOf(a.k))?-1:0)-((answers[7]===order.indexOf(b.k))?-1:0)||order.indexOf(a.k)-order.indexOf(b.k)).slice(0,2);resultCards.innerHTML=ranked.map((r,n)=>card(r.k,n)).join('');quiz.classList.add('hidden');results.classList.remove('hidden');results.scrollIntoView({behavior:'smooth'});document.querySelectorAll('.copy').forEach(b=>b.onclick=()=>copyJob(b))}
-function reasons(k){const j=order.indexOf(k),hits=[];answers.forEach((a,q)=>{if(weights[q][a][j]>=3)hits.push(qs[q][1][a])});return [...new Set(hits)].slice(0,2)}
-function card(k,n){const j=jobs[k],rs=reasons(k);return `<article class="job" id="result-${k}"><img src="${j.img}" alt="${j.alt}"><div class="job-body"><span class="rank">${n+1}位</span><h2>${j.name}</h2><p>${j.work}</p><p class="note">画像はイメージです</p><div class="reason"><b>この候補につながった回答</b><ul>${rs.map(x=>`<li>${x}</li>`).join('')}</ul></div><h3>架空の入力</h3><div class="sample">${j.input}</div><h3>完成見本</h3><p class="future">${j.future}</p><h3>今すぐ試す</h3><p>ChatGPTで新しいチャットを開き、下の全文をコピーして貼り、送ります。</p><div class="prompt" data-prompt="${k}">${j.prompt}</div><button class="copy" data-job="${k}">全文をコピー</button><span role="status" style="display:block;min-height:1.8em;font-weight:800"></span><p class="note">コピーできない時は、上の全文を長押しして選択します。</p><h3>完成チェック</h3><ul class="checks">${j.check.map(x=>`<li>${x}</li>`).join('')}</ul><p><b>端末：</b>${j.device}</p><a class="next" href="${j.url}">対応する仕事をスタートBOOKで見る</a></div></article>`}
-async function copyJob(b){const target=b.closest('.job').querySelector('[data-prompt]');const status=b.nextElementSibling;try{if(!navigator.clipboard||!navigator.clipboard.writeText)throw new Error('clipboard unavailable');await navigator.clipboard.writeText(jobs[b.dataset.job].prompt);b.textContent='コピーしました';status.textContent='全文をコピーしました。'}catch(error){const range=document.createRange();range.selectNodeContents(target);const selection=getSelection();selection.removeAllRanges();selection.addRange(range);target.scrollIntoView({block:'center'});b.textContent='全文を表示しました';status.textContent='自動コピーできませんでした。選択した全文を長押しし、「コピー」を選んでください。'}}
-start.onclick=()=>showQ(0);revise.onclick=()=>showQ(7);restart.onclick=()=>{answers=[];step=0;results.classList.add('hidden');intro.classList.remove('hidden');scrollTo({top:0,behavior:'smooth'})};
-</script></body></html>
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AI副業タイプ診断</title><style>
+:root{--ink:#17202a;--muted:#52606d;--paper:#fff;--soft:#f3f5f6;--a:#1f6c63;--b:#bc653b;--line:#b8c4ca}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);background:var(--paper);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;font-size:18px;line-height:1.8}a{color:var(--a);text-underline-offset:3px}button,.btn,summary{min-height:48px;font:inherit}.pdf-only{display:none}.wrap{width:min(1100px,calc(100% - 40px));margin:auto}.hero{padding:72px 0 52px;background:var(--soft);border-bottom:5px solid var(--a)}.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center}.eyebrow{font-weight:800;color:var(--a);letter-spacing:.08em}.hero h1{font-size:clamp(36px,6vw,68px);line-height:1.13;margin:.15em 0;overflow-wrap:normal;word-break:keep-all}.hero img{width:100%;display:block;border-radius:6px;aspect-ratio:4/3;object-fit:cover}.notice,figcaption{font-size:14px;color:var(--muted);margin-top:8px}.actions{display:flex;gap:12px;flex-wrap:wrap;margin:24px 0}.btn,button.primary{display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:4px;background:var(--a);color:#fff;padding:11px 22px;font-weight:800;text-decoration:none;cursor:pointer}.btn.alt{background:var(--b)}.btn.secondary{background:transparent;color:var(--a);border:1px solid var(--a);font-weight:700}main{padding:28px 0 80px}section.content{padding:34px 0;border-bottom:1px solid #d9dfe3}h2{font-size:clamp(28px,4vw,42px);line-height:1.35;margin:1.4em 0 .55em;border-left:7px solid var(--a);padding-left:16px}h3{font-size:clamp(22px,3vw,30px);line-height:1.45;margin:1.5em 0 .45em}h4{font-size:20px}.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:28px 0}.flow div{background:var(--soft);padding:16px 12px;border-top:4px solid var(--a);font-weight:700}.flow b{display:block;color:var(--a);font-size:14px}.tablewrap{overflow-x:auto;margin:24px 0}table{border-collapse:collapse;width:100%;min-width:600px}th,td{border:1px solid #bbc5cc;padding:12px;text-align:left;vertical-align:top}th{background:var(--ink);color:#fff}.codebox{position:relative;margin:22px 0}.copy{position:absolute;right:8px;top:8px;border:1px solid #ccd3d7;background:#fff;border-radius:4px;padding:5px 12px;z-index:2}pre{overflow:auto;background:#111b24;color:#f5f7f8;padding:58px 20px 20px;border-radius:5px;font-size:15px;line-height:1.6;white-space:pre-wrap}code{overflow-wrap:anywhere}details{border:1px solid #bcc6cc;padding:14px 18px;margin:20px 0}summary{font-weight:800;cursor:pointer;padding:8px 0}.appendix{background:#f7f8f8}video{width:100%;display:block;background:#111;max-height:620px}.video-stage{background:#111;padding:12px;margin:24px 0}.quiz{max-width:780px;margin:30px auto}.progress{height:8px;background:#dce2e5}.progress i{display:block;height:100%;background:var(--a)}.choice{display:block;width:100%;text-align:left;border:2px solid #c7d0d5;background:#fff;border-radius:4px;padding:14px 16px;margin:10px 0}.choice[aria-pressed=true]{border-color:var(--a);background:#eaf5f4}.quiz-nav{display:flex;justify-content:space-between;gap:10px;margin-top:20px}.error{color:#a32828;font-weight:700}.result{background:var(--soft);padding:24px;border-top:6px solid var(--a);margin:24px 0}.result img{width:100%;max-height:400px;object-fit:cover}.chips{display:flex;flex-wrap:wrap;gap:8px}.chips span{border:1px solid #9eadb5;padding:6px 11px;border-radius:999px;font-size:15px}
+.cover-outcomes{display:none}.visual{margin:30px 0;padding:22px;background:#fff;border:1px solid var(--line);border-top:5px solid var(--a);border-radius:4px}.visual b,.visual strong{display:block}.visual i{font-style:normal;color:var(--b);font-weight:900;text-align:center}.visual small{color:var(--muted)}.track-row{display:flex;align-items:stretch;gap:16px;overflow-x:auto;padding:4px;counter-reset:steps}.track .node{position:relative;min-width:150px;flex:1;padding:16px 12px;background:var(--soft);border-bottom:3px solid var(--a);font-weight:700;text-align:center;line-height:1.45;counter-increment:steps;word-break:keep-all}.track .node::before{content:counter(steps);display:block;color:var(--a);font-size:14px}.track .node:not(:last-child)::after{content:'→';position:absolute;right:-14px;top:50%;transform:translateY(-50%);color:var(--b);font-size:22px;z-index:2}.commerce-map{display:grid;gap:14px}.commerce-phase{display:grid;grid-template-columns:120px 1fr;gap:14px;align-items:stretch}.commerce-phase>b{display:flex;align-items:center;justify-content:center;background:var(--ink);color:#fff;padding:14px;text-align:center;word-break:keep-all}.commerce-phase>div{display:grid;grid-template-columns:repeat(5,1fr);gap:18px}.commerce-phase .node{position:relative;background:var(--soft);border-bottom:3px solid var(--a);padding:14px 8px;text-align:center;font-weight:700;word-break:keep-all}.commerce-phase .node:not(:last-child)::after{content:'→';position:absolute;right:-15px;color:var(--b);top:40%;font-size:22px}.visual-scene{position:relative}.visual-scene>img{width:100%;max-height:560px;object-fit:cover;border-radius:2px}.overlay-flow{display:flex;align-items:center;justify-content:center;gap:14px;background:var(--ink);color:#fff;padding:14px;margin-top:-4px}.overlay-flow span{color:var(--b);font-size:24px}.deliverables{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:12px}.deliverables span{padding:10px;background:var(--soft);text-align:center;font-weight:700}.matrix-head,.matrix-row{display:grid;grid-template-columns:1fr 1.25fr 1.4fr 1.2fr;gap:1px;background:var(--line)}.matrix-head>*{background:var(--ink);color:#fff;padding:10px}.matrix-row>*{background:#fff;padding:11px}.matrix-row:nth-child(odd)>*{background:var(--soft)}.visual-pair{display:grid;grid-template-columns:1fr 40px 1fr;gap:14px;align-items:center}.visual-pair>div{min-width:0}.visual-pair>div:nth-of-type(3){grid-column:1/-1}.visual-pair img{width:100%;max-height:320px;object-fit:cover}.meeting-before-after{display:grid!important;grid-template-columns:1fr 40px 1fr;gap:14px;align-items:center}.meeting-before-after section{background:var(--soft);padding:16px}.meeting-before-after dl{display:grid;grid-template-columns:auto 1fr;margin:8px 0}.meeting-before-after dt{font-weight:800;color:var(--a)}.meeting-before-after dd{margin:0 0 4px 10px}.before-after,.edit-lane,.data-use,.column-map,.folder-map{display:flex;gap:18px;align-items:center}.before-after>div,.edit-lane>div,.data-use>div,.column-map>div,.folder-map>div{flex:1;background:var(--soft);padding:18px}.before-after span,.edit-lane span,.column-map span,.data-use span{display:block;padding:5px 0}.compare,.output-files,.environment{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}.compare>div,.output-files>div,.environment>div{padding:20px;background:var(--soft);border-left:5px solid var(--a)}.compare strong,.output-files b,.environment strong{font-size:22px;margin:8px 0}.actual-compare>div{display:grid;gap:10px}.paper{background:#fff;border:1px solid var(--line);padding:14px}.paper span{display:block;border-bottom:1px solid var(--line);padding:4px}.final-paper{border-left:5px solid var(--a)}.file-flow{display:grid;grid-template-columns:1.1fr .7fr 1.5fr .25fr .8fr;gap:14px;align-items:center}.file-group,.split-output,.human-check{background:var(--soft);padding:18px}.file-group code,.file-group small,.split-output span,.split-output code,.human-check span{display:block;margin:6px 0}.split-output span{border-bottom:1px solid var(--line);padding:6px 0}.output-files{grid-template-columns:repeat(3,1fr)}.output-files code{font-size:13px;display:block;overflow-wrap:anywhere}.mini-table{display:grid;gap:5px}.mini-table span{background:#fff;border:1px solid var(--line);padding:6px}.ui-guide>div{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.ui-guide span{background:var(--soft);padding:14px;text-align:center}.truth-compare{display:grid;grid-template-columns:1fr 1fr;gap:18px}.truth-compare>div{padding:20px}.truth-compare .bad{background:#fbeeee;border-left:5px solid #a33}.truth-compare .good{background:#eaf5f1;border-left:5px solid var(--a)}.truth-compare p{grid-column:1/-1;background:var(--soft);padding:12px}.meeting-map{display:grid;grid-template-columns:auto auto repeat(4,1fr) auto 1.4fr;align-items:center;gap:8px;margin-top:12px}.meeting-map>*{background:var(--soft);padding:10px;text-align:center}.role-map{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;text-align:center}.role-map>div{background:var(--soft);padding:18px}.role-map span{display:block;padding:4px}.role-map>i,.role-map>strong,.role-map>em{grid-column:1/-1}.role-map>strong{font-size:26px}.role-map>em{font-style:normal;color:var(--a);font-weight:800}.environment{grid-template-columns:repeat(3,1fr)}.environment span{display:block}.environment .ok{background:#eaf5f1}.install-flow{display:grid;grid-template-columns:1fr 40px 1fr 40px 1fr;gap:10px;align-items:center}.install-flow>div{background:var(--soft);padding:16px}.install-flow .branch{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:12px;background:#fff}.install-flow .branch span{padding:14px;border:1px solid var(--line)}.actual-assets{display:grid;grid-template-columns:1.5fr 40px 1fr;align-items:center;gap:14px}.actual-assets>div:first-child{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.actual-assets img{width:100%;aspect-ratio:9/16;object-fit:cover}.actual-assets b{grid-column:1/-1}.subtitle-compare{display:grid;grid-template-columns:1fr 40px 1fr;gap:14px;align-items:center}.subtitle-compare>div{background:var(--ink);color:#fff;padding:16px;text-align:center}.subtitle-compare img{width:100%;max-height:480px;object-fit:cover;object-position:center 80%}.subtitle-compare strong{font-size:18px}.subtitle-compare ul{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;list-style:none;padding:0}.subtitle-compare li{background:var(--soft);padding:10px;text-align:center;font-weight:700}.folder-map code{display:block;background:#fff;border:1px solid var(--line);padding:6px;margin:5px 0}.completion-card .completion-info{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}.completion-info b{grid-column:1/-1;font-size:28px}.completion-info span{background:var(--soft);padding:10px}.condition-sheet{text-align:center}.condition-sheet>div{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin:12px 0}.condition-sheet span{background:var(--soft);padding:12px 6px;font-weight:700}.condition-sheet>strong{display:inline-block;font-size:22px;border-bottom:4px solid var(--a);padding:8px 18px}
+@media(max-width:760px){body{font-size:18px}.wrap{width:min(100% - 28px,1100px)}.hero{padding:42px 0 34px}.hero-grid{grid-template-columns:1fr;gap:24px}.flow{grid-template-columns:1fr}.actions>.btn{width:100%}h2{padding-left:12px}.quiz{margin-top:16px}.visual{padding:16px;margin:24px 0}.track-row{flex-direction:column;overflow:visible}.track .node{min-width:0}.track .node:not(:last-child)::after{content:'↓';right:auto;top:auto;bottom:-20px;left:50%;transform:translateX(-50%)}.commerce-phase{grid-template-columns:1fr}.commerce-phase>div{grid-template-columns:1fr}.commerce-phase .node:not(:last-child)::after{content:'↓';right:auto;top:auto;bottom:-17px;left:50%}.overlay-flow{align-items:stretch;flex-direction:column}.overlay-flow span{transform:rotate(90deg);line-height:1}.deliverables{grid-template-columns:1fr 1fr}.matrix-head{display:none}.matrix-row{grid-template-columns:1fr 1fr}.matrix-row>*:nth-child(3),.matrix-row>*:nth-child(4){grid-column:span 1}.matrix-row b{grid-column:1/-1;background:var(--ink)!important;color:#fff}.visual-pair{grid-template-columns:1fr}.visual-pair>i{transform:rotate(90deg)}.visual-pair>div:nth-of-type(3){grid-column:auto}.meeting-before-after{grid-template-columns:1fr!important}.before-after,.edit-lane,.data-use,.column-map,.folder-map{flex-direction:column;align-items:stretch}.file-flow{grid-template-columns:1fr}.file-flow>i{transform:none}.compare,.output-files,.environment{grid-template-columns:1fr}.ui-guide>div{grid-template-columns:1fr}.meeting-map{grid-template-columns:1fr 1fr}.meeting-map>*{grid-column:auto}.role-map{grid-template-columns:1fr}.role-map>i,.role-map>strong,.role-map>em{grid-column:1}.install-flow{grid-template-columns:1fr}.install-flow .branch{grid-column:1;grid-template-columns:1fr}.actual-assets{grid-template-columns:1fr}.actual-assets>i{transform:rotate(90deg)}.subtitle-compare{grid-template-columns:1fr}.subtitle-compare ul{grid-column:1;grid-template-columns:1fr}.subtitle-compare>i{transform:rotate(90deg)}.completion-card .completion-info{grid-template-columns:1fr}.condition-sheet>div{grid-template-columns:1fr 1fr}}
+@media print{@page{size:A4;margin:13mm 12mm}body{font-size:12.5pt;line-height:1.52}main{padding:0}.wrap{width:auto}.hero{height:297mm;margin:-13mm -12mm 0;padding:22mm 23mm;display:flex;align-items:stretch;break-after:page}.hero-grid{width:100%;grid-template-columns:1fr;gap:7mm;align-content:center}.hero figure{max-width:none;margin:0}.hero img{aspect-ratio:16/9;max-height:104mm}.hero h1{font-size:31pt}.hero p{font-size:13.5pt}.cover-outcomes{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm}.cover-outcomes span{background:#fff;border-top:4px solid var(--a);padding:4mm 2mm;text-align:center;font-weight:800}.btn,.copy,.quiz,.no-print,.video-stage{display:none!important}details{border:0;padding:0}details>*{display:block!important}summary{display:none}h2,h3,h4{break-after:avoid}h2{font-size:24pt}h3{font-size:18.5pt}h4{font-size:14.5pt}h2+*,h3+*,h4+*{break-before:avoid}.keep-group{break-inside:avoid}img,video,.flow,.tablewrap,blockquote,pre,.visual{break-inside:avoid}.break-after{break-after:page}section.content{padding:4mm 0}pre{font-size:9pt}.pdf-only{display:block!important}.pdf-complete{break-inside:avoid}.pdf-complete img{width:100%;max-height:145mm;object-fit:contain}.visual{padding:4mm;margin:5mm 0}.visual-scene>img{max-height:100mm}.track-row{gap:2mm}.track .node{min-width:20mm;padding:3mm 1.5mm;font-size:10pt}.track .node:not(:last-child)::after{right:-2.5mm}.commerce-map{gap:4mm}.commerce-phase{grid-template-columns:28mm 1fr;gap:3mm}.commerce-phase>div{gap:4mm}.commerce-phase .node{padding:3mm 1mm;font-size:10pt}.visual figcaption{font-size:9.5pt}.visual-pair img{max-height:48mm}.meeting-before-after section{padding:3mm;font-size:10pt}.overlay-flow{padding:2mm}.condition-sheet span{padding:2mm;font-size:9pt}.completion-card .completion-info{font-size:10pt}.subtitle-compare img{max-height:78mm}}
+
+.three-stage{display:grid;grid-template-columns:1fr 36px 1fr 36px 1fr;gap:12px;align-items:center}.three-stage>div{min-width:0;background:var(--soft);padding:18px}.three-stage span{display:block;padding:5px 0}.three-stage figcaption{grid-column:1/-1}
+@media(max-width:760px){.three-stage{grid-template-columns:1fr}.three-stage>i{transform:rotate(90deg)}.three-stage figcaption{grid-column:1}}
+@media print{#診断{display:none!important}h2[id^="結果"]{break-before:auto}.three-stage{grid-template-columns:1fr 8mm 1fr 8mm 1fr;gap:2mm}.three-stage>div{padding:3mm;font-size:10pt}.tablewrap{break-inside:auto!important}tr{break-inside:avoid}.file-flow{grid-template-columns:1.1fr .85fr 1.35fr .2fr .8fr}.file-flow>i{word-break:keep-all;font-size:10pt}.meeting-scene>img{max-height:60mm}.data-use,.column-map{flex-direction:row!important;align-items:center!important}.edit-lane{display:grid;grid-template-columns:1fr 7mm 1fr 7mm 1fr 7mm 1fr;gap:2mm;align-items:center}.edit-lane>div{padding:3mm;font-size:10pt;min-width:0}.edit-lane>i{transform:none!important}.edit-lane figcaption{grid-column:1/-1}.actual-assets img{max-height:65mm;aspect-ratio:auto!important;object-fit:cover}pre{font-size:8.8pt;line-height:1.35;padding:4mm}h3[id="Codexへ送る字幕修正文"]{margin-top:3mm}h3[id="Codexへ送る字幕修正文"]+div pre{font-size:8.3pt;line-height:1.25;padding:3mm}h3[id="仕事の準備"]+ul,h3[id="人が行う所"]+ul{break-inside:avoid}h2[id="今日の行動"],h3[id="Codexへ自然な文で頼む"],h3[id="素材を守る"]{break-before:page}h3[id="素材を守る"]~h2[id="今日の行動"]{break-before:auto}details.appendix{font-size:12pt;line-height:1.45}details.appendix p{margin:.65em 0}}
+.result-print-only{display:none}
+@media print{body.printing-result{font-size:11.5pt;line-height:1.48}body.printing-result .hero,body.printing-result main>:not(#診断),body.printing-result #診断>:not(#results){display:none!important}body.printing-result #診断{display:block!important;border:0;padding:0}body.printing-result #results{display:block!important}body.printing-result #results>h2{font-size:24pt;margin:0 0 4mm}body.printing-result #results>.result{display:block!important;background:#fff;border:1px solid var(--line);border-top:5px solid var(--a);padding:5mm;margin:0;break-inside:auto}body.printing-result #results>.result+.result{break-before:page}body.printing-result #results>.result img{max-height:62mm;object-fit:cover}body.printing-result #results>.result img[src*="result-video"]{max-height:50mm}body.printing-result #results>.result h2{font-size:21pt}body.printing-result #results>.result h3{font-size:15.5pt}body.printing-result #results>.result h3[id="この結果になった理由"]{break-before:page}body.printing-result #results>.result figure{break-inside:avoid}body.printing-result .result-print-only{display:block!important;background:var(--soft);padding:3mm;margin:0 0 4mm}body.printing-result #results>.actions{display:none!important}}
+</style></head><body><header class="hero"><div class="wrap hero-grid"><div><p class="eyebrow">最初の仕事を選ぶ入口</p><h1>AI副業タイプ<wbr><span style="white-space:nowrap">診断</span></h1><p>8問に答えると、最初に試す仕事を2つ表示します。</p><div class="actions"><a class="btn" href="#診断">8問の診断を始める</a><a class="btn secondary" href="assets/AI副業タイプ診断_保存版.pdf" download>保存版PDFを保存</a></div></div><figure><img src="assets/display/work-choice-scene-v1.png" alt="5種類の仕事の完成物を見比べる女性"><figcaption class="notice">画像はイメージです</figcaption></figure><div class="cover-outcomes"><span>5仕事を比較</span><span>8問で2候補</span><span>最初の練習へ</span></div></div></header><main class="wrap"><div class="chips"><span>文章作成（商品紹介文）</span><span>SNS投稿サポート</span><span>告知画像制作</span><span>事務・情報整理</span><span>短尺動画編集</span></div><section class="content" id="診断"><h2>8問に答えてください</h2><p>迷ったら、今の気持ちに近い方を選んでください。結果は2つ表示します。</p><div class="quiz"><div class="progress"><i></i></div><p id="qcount"></p><h3 id="qtext"></h3><div id="choices"></div><p class="error" id="qerror" aria-live="polite"></p><div class="quiz-nav"><button id="back">戻る</button><button class="primary" id="next">次へ</button></div><button id="reset">最初から</button></div><div id="results"></div></section><details class="no-print"><summary>診断前に5つの仕事を詳しく見る（任意）</summary><h3 id="最初に試す仕事を-5つから選びましょう">最初に試す仕事を、5つから選びましょう</h3>
+<p>AI副業では、お店や事業者から文章・画像・資料・動画の制作を頼まれます。</p>
+<p>AIで下書きや整理を進め、人が確認し、使える形で納品します。その作業と完成物に対して、合意した報酬を受け取ります。</p>
+<p>「仕事の名前を見ても、何を頼まれるのか分からない」</p>
+<p>「やったことがないのに、向いている仕事なんて選べない」</p>
+<p>そう感じるのは普通です。</p>
+<p>この診断では、経験、好み、使える時間、端末から、最初に比べる仕事を2つ提案します。結果には、買い手、頼まれる作業、納品物、最初の練習、仕事を探す言葉まで表示します。</p>
+<p>診断は、向いている職業や収入を決めるものではありません。まだ試していない5つから、最初の練習を選ぶ入口です。</p>
+<figure class="visual visual-scene"><img src="assets/display/client-brief-five-deliverables-v2.png" alt="依頼主が初心者へ仕事の依頼書を渡し、5種類の完成物を確認している場面"><div class="overlay-flow"><b>依頼主の困り事</b><span>→</span><b>人がAIを道具にして制作</b><span>→</span><b>5種類の完成物</b></div><div class="deliverables"><span>商品紹介文</span><span>SNS投稿文</span><span>告知画像</span><span>整った表</span><span>短い動画</span></div><figcaption>AIは制作を助ける道具。依頼主が使う完成物を、人が確認して納品します。画像はイメージです</figcaption></figure>
+<h3 id="先に-5つの仕事を見てください">先に、5つの仕事を見てください</h3>
+<p>結果には、この5つの中から2候補が出ます。</p>
+<div class="keep-group"><h4 id="1-文章作成-商品紹介文">1．文章作成（商品紹介文）</h4><ul>
+<li>買い手：ネットショップ、教室、小さな会社</li>
+<li>頼まれること：商品やサービスの資料を、読める説明へ整える</li>
+<li>納品物：商品説明文、サービス紹介文、確認事項の一覧</li>
+<li>対価の対象：資料に沿った文章と、人が確認した完成原稿</li>
+</ul></div>
+<div class="keep-group"><h4 id="2-SNS投稿サポート">2．SNS投稿サポート</h4><ul>
+<li>買い手：お店、個人事業主、会社のSNS担当者</li>
+<li>頼まれること：新商品や営業案内を、投稿文へ整える</li>
+<li>納品物：投稿文、見出し、必要に応じたハッシュタグ案</li>
+<li>対価の対象：目的と読者に合い、事実確認を終えた投稿原稿</li>
+</ul></div>
+<div class="keep-group"><h4 id="3-告知画像制作">3．告知画像制作</h4><ul>
+<li>買い手：お店、教室、イベント主催者</li>
+<li>頼まれること：写真、原稿、日時を、1枚で伝わる画像へまとめる</li>
+<li>納品物：PNGまたはJPGの画像</li>
+<li>対価の対象：文字が読め、日時や内容が正しい完成画像</li>
+</ul></div>
+<div class="keep-group"><h4 id="4-事務・情報整理">4．事務・情報整理</h4><ul>
+<li>買い手：ネットショップ、会社、個人事業主</li>
+<li>頼まれること：複数の商品情報、会議メモ、問い合わせ内容を同じ基準で整理する</li>
+<li>納品物：表、会議メモ、確認事項の一覧</li>
+<li>対価の対象：元資料と照合され、仕事に使える形へ整った資料</li>
+</ul></div>
+<div class="keep-group"><h4 id="5-短尺動画編集">5．短尺動画編集</h4><ul>
+<li>買い手：お店、講師、発信者、会社のSNS担当者</li>
+<li>頼まれること：撮影済みの動画を切り、字幕と音量を整える</li>
+<li>納品物：指定の長さ・向きにした、スマホなどで再生できるMP4動画</li>
+<li>対価の対象：最後まで再生確認され、依頼条件を満たした動画ファイル</li>
+</ul></div>
+<figure class="visual matrix"><div class="matrix-head"><b>仕事</b><b>受け取る材料</b><b>人とAIの作業</b><b>納品物</b></div><div class="matrix-row"><b>文章作成</b><span>商品資料</span><span>下書き→人が照合</span><strong>商品紹介文</strong></div><div class="matrix-row"><b>SNS投稿</b><span>お知らせメモ</span><span>2案→人が選ぶ</span><strong>投稿文</strong></div><div class="matrix-row"><b>告知画像</b><span>原稿・写真</span><span>配置→スマホ確認</span><strong>PNG画像</strong></div><div class="matrix-row"><b>事務整理</b><span>ばらばらな情報</span><span>同じ列へ整理</span><strong>表・確認事項</strong></div><div class="matrix-row"><b>短尺動画</b><span>撮影素材</span><span>カット・字幕・音</span><strong>完成MP4</strong></div><figcaption>5つとも「材料を受け取り、作って確認し、完成物を渡す」仕事です。</figcaption></figure>
+<h3 id="仕事になるまでの流れは同じです">仕事になるまでの流れは同じです</h3>
+<p>仕事によって作る物は違っても、受注から報酬までの流れは似ています。</p>
+<ol>
+<li>募集を読む、またはサービスを出品する</li>
+<li>応募・相談で、できる範囲と見本を伝える</li>
+<li>納品物、期限、修正、AI利用、報酬を合意する</li>
+<li>依頼主が報酬を先に預ける「仮払い」など、利用サービスの開始条件を確認する</li>
+<li>依頼主から材料を受け取る</li>
+<li>AIで下書きし、人が元資料と照合する</li>
+<li>最初の確認用に作った版「初稿」を見せ、合意した範囲を修正する</li>
+<li>完成物を納品する</li>
+<li>依頼主が納品物を確認する「検収」のあと、報酬を受け取る</li>
+</ol>
+<p>クラウドワークスの固定報酬制プロジェクトでは、契約後に発注者が仮払いし、受注者は仮払いを確認してから仕事を始めます。納品後は依頼主が検収し、支払いが確定します。依頼形式によって流れは違うため、使うサービスの案内を確認してください。</p>
+<p>練習作品を作っただけで、受注や報酬が決まるわけではありません。診断結果の練習は、見本を作れるか、自分が確認作業を続けられそうかを見るために使います。</p>
+<figure class="visual commerce-map"><div class="commerce-phase"><b>受注前</b><div><div class="node">募集を探す</div><div class="node">応募する</div><div class="node">条件に合意</div><div class="node">仮払い確認</div></div></div><div class="commerce-phase"><b>制作</b><div><div class="node">材料を受取</div><div class="node"><b>人＋AIで制作</b></div><div class="node">修正する</div></div></div><div class="commerce-phase"><b>納品と支払</b><div><div class="node">納品する</div><div class="node">検収</div><div class="node">報酬受取</div></div></div><figcaption>上から順に進みます。AIは取引全体ではなく、制作工程の中で使います。</figcaption></figure></details><template id="res-product"><div class="result"><img src="assets/display/result-product-v1.jpg" alt="商品資料を見ながら商品紹介文を整える作業場面"><p class="notice">画像はイメージです</p><h2>文章作成（商品紹介文）</h2><h3 id="誰が-何のために頼む仕事">誰が、何のために頼む仕事？</h3>
+<p>ネットショップや教室の運営者が、商品の特徴や利用条件をお客さまへ伝えるために頼みます。</p>
+<p>依頼主から商品資料、仕様、注意事項を受け取り、商品説明文と確認事項を返します。AIが文章の順番を下書きし、人が元資料にない内容を足していないか確認します。</p>
+<p>対価の対象は、AIの回答そのものではありません。依頼主の資料に沿い、掲載前に使える所まで整えた原稿です。</p>
+<figure class="visual track result-flow"><div class="track-row"><div class="node">商品資料</div><div class="node">AIの下書き</div><div class="node">人が照合</div><div class="node">紹介文＋確認事項</div><div class="node">商品ページで利用</div></div><figcaption>文章作成（商品紹介文）の完成まで</figcaption></figure>
+<h3 id="この結果になった理由">この結果になった理由</h3>
+<p>結果画面では、次のような実回答から最大2つを表示します。</p>
+<ul>
+<li>商品・サービスの資料を受け取りたい</li>
+<li>商品説明文を完成させたい</li>
+</ul>
+<p>文章作成（商品紹介文）は、確認できた情報を読み手が知りたい順へ並べ、未確認のことを分ける作業が中心だからです。</p>
+<h3 id="仕事を始める前に足りない準備">仕事を始める前に足りない準備</h3>
+<ul>
+<li>商品名、内容物、使い方、注意を資料から拾う</li>
+<li>「必ず」「誰でも」など、根拠のない断定を入れない</li>
+<li>依頼主へ確認する項目を残す</li>
+<li>納品するファイル形式と修正回数を確認する</li>
+</ul>
+<h3 id="最初の練習">最初の練習</h3>
+<p>架空の商品「おうちバジル栽培セット」の資料から、次の2点を作ります。</p>
+<ol>
+<li>120〜180字の商品説明文</li>
+<li>未確認のことをまとめた確認事項</li>
+</ol>
+<p>入力にない価格、収穫日数、効果は足しません。完成後は、資料と文章を1行ずつ見比べます。</p>
+<h3 id="仕事を探す言葉">仕事を探す言葉</h3>
+<ul>
+<li>商品説明文 作成</li>
+<li>EC 商品登録 文章</li>
+<li>サービス紹介文 作成</li>
+</ul>
+<p>募集では、商品数、1件あたりの長さ、元資料、画像作成の有無、納品形式、期限、修正回数、AI利用の条件を読みます。</p>
+<h3 id="次に読む章">次に読む章</h3>
+<ul>
+<li><a href="https://yuuyann0318.github.io/ai-fukugyo-startbook-50/#job-product">AI副業スタートBOOK：文章作成（商品紹介文）</a></li>
+<li>複数の商品を同じ表へ整える仕事は、特典04「AI×自動化ワークの始め方」で練習できます。</li>
+</ul>
+<hr></div></template><template id="res-sns"><div class="result"><img src="assets/display/result-sns-v1.jpg" alt="お店のお知らせメモからSNS投稿文を整える作業場面"><p class="notice">画像はイメージです</p><h2>SNS投稿サポート</h2><h3 id="誰が-何のために頼む仕事">誰が、何のために頼む仕事？</h3>
+<p>お店や個人事業主が、新商品、営業案内、イベントをSNSで知らせるために頼みます。</p>
+<p>依頼主から目的、読者、確認済み情報、言葉の雰囲気を受け取り、投稿文を返します。AIは構成案を出せますが、事実、店の言い方、読んだ人にしてほしい行動は人が確認します。</p>
+<p>対価の対象は、投稿の目的に合い、依頼主が確認できる形にした原稿です。投稿作業や画像制作まで含むかは、別に合意します。</p>
+<figure class="visual track result-flow"><div class="track-row"><div class="node">お知らせメモ</div><div class="node">投稿文2案</div><div class="node">人が確認</div><div class="node">確定原稿</div><div class="node">依頼主が投稿</div></div><figcaption>SNS投稿サポートの完成まで</figcaption></figure>
+<h3 id="この結果になった理由">この結果になった理由</h3>
+<p>結果画面では、次のような実回答から最大2つを表示します。</p>
+<ul>
+<li>お知らせのメモを受け取りたい</li>
+<li>SNS投稿文を完成させたい</li>
+</ul>
+<p>SNS投稿は、伝えたい情報を短くまとめ、読んだ人が次に何をすればよいかまで整える作業だからです。</p>
+<h3 id="仕事を始める前に足りない準備">仕事を始める前に足りない準備</h3>
+<ul>
+<li>投稿の目的と読者を確認する</li>
+<li>店名、商品名、日時、申込方法を元資料へ戻す</li>
+<li>店の過去投稿から、言葉の雰囲気を確認する</li>
+<li>文章だけか、画像・予約投稿・返信まで含むか分ける</li>
+</ul>
+<h3 id="最初の練習">最初の練習</h3>
+<p>架空カフェの「10月限定・焼きりんごトースト・毎日11時から・なくなり次第終了」というメモから、投稿文を1案作ります。</p>
+<p>依頼メモにない価格、予約、個数は足しません。作った文章は「架空の練習例」と書いて保存します。</p>
+<h3 id="仕事を探す言葉">仕事を探す言葉</h3>
+<ul>
+<li>SNS 投稿文 作成</li>
+<li>Instagram キャプション 作成</li>
+<li>店舗 SNS 運用補助</li>
+</ul>
+<p>募集では、投稿数、文字量、画像作成の有無、投稿代行の有無、確認方法、修正回数、AI利用の条件を読みます。</p>
+<h3 id="次に読む章">次に読む章</h3>
+<ul>
+<li><a href="https://yuuyann0318.github.io/ai-fukugyo-startbook-50/#job-sns">AI副業スタートBOOK：SNS投稿</a></li>
+</ul>
+<hr></div></template><template id="res-design"><div class="result"><img src="assets/display/result-design-v1.jpg" alt="原稿と写真から告知画像を作る作業場面"><p class="notice">画像はイメージです</p><h2>告知画像制作</h2><h3 id="誰が-何のために頼む仕事">誰が、何のために頼む仕事？</h3>
+<p>お店、教室、イベント主催者が、日時や内容を1枚で伝えるために頼みます。</p>
+<p>依頼主から用途、画像サイズ、原稿、写真、色、ロゴを受け取り、PNGやJPGで返します。AIは背景案を作れます。人は正しい文字を重ね、読みやすさと日時を確認します。</p>
+<p>対価の対象は、依頼した用途で使える完成画像です。AIが作った背景だけを渡して終わりではありません。</p>
+<figure class="visual track result-flow"><div class="track-row"><div class="node">原稿・写真・サイズ</div><div class="node">背景案</div><div class="node">文字を配置</div><div class="node">スマホ確認</div><div class="node">PNG納品</div></div><figcaption>告知画像制作の完成まで</figcaption></figure>
+<h3 id="この結果になった理由">この結果になった理由</h3>
+<p>結果画面では、次のような実回答から最大2つを表示します。</p>
+<ul>
+<li>写真と掲載する文字を受け取りたい</li>
+<li>告知画像を完成させたい</li>
+</ul>
+<p>告知画像は、写真と文字の優先順位を決め、離れて見ても内容が伝わるように直す作業だからです。</p>
+<h3 id="仕事を始める前に足りない準備">仕事を始める前に足りない準備</h3>
+<ul>
+<li>用途と画像サイズを確認する</li>
+<li>原稿、写真、ロゴの利用条件を確認する</li>
+<li>AI背景へ読めない文字を入れない</li>
+<li>初稿の出し方、修正回数、納品形式を決める</li>
+</ul>
+<h3 id="最初の練習">最初の練習</h3>
+<p>架空のハーブ教室を題材に、AIで文字なし背景を作り、Canvaなどで「ハーブの育て方教室」「11月9日」「10時から」を重ねます。</p>
+<p>完成画像をスマホで開き、見出しと日時が読めるか確認します。架空例であることも一緒に保存します。</p>
+<h3 id="仕事を探す言葉">仕事を探す言葉</h3>
+<ul>
+<li>SNS 告知画像 作成</li>
+<li>Instagram 画像 制作</li>
+<li>バナー 制作</li>
+</ul>
+<p>募集では、用途、縦横サイズ、原稿、写真、ロゴ、初稿期限、修正回数、納品形式、編集データの有無を読みます。</p>
+<h3 id="次に読む章">次に読む章</h3>
+<ul>
+<li><a href="https://yuuyann0318.github.io/smartphone-ai-design-guide/">スマホ×AIデザインの稼ぎ方 完全解説</a></li>
+</ul>
+<hr></div></template><template id="res-office"><div class="result"><img src="assets/display/result-office-v1.png" alt="ばらばらな商品情報を同じ列の表へ整える作業場面"><p class="notice">画像はイメージです</p><h2>事務・情報整理</h2><h3 id="誰が-何のために頼む仕事">誰が、何のために頼む仕事？</h3>
+<p>ネットショップ、会社、個人事業主が、ばらばらの情報を仕事で使える表や資料にするために頼みます。</p>
+<p>依頼主から商品一覧、会議メモ、問い合わせ内容などを受け取り、指定された項目で整理します。AIは分類や下書きを手伝います。人は件数、数字、固有名詞、未確認事項を元資料と照合します。</p>
+<p>対価の対象は、依頼主が次の作業に使える表やメモです。AIへ1回入れて終わる仕事ではありません。</p>
+<figure class="visual three-stage"><div><b>材料</b><span>5商品のばらばら情報</span><span>走り書きの会議メモ</span></div><i>→</i><div><b>完成物</b><span>同じ列の表</span><span>決定・担当・期限が見えるメモ</span></div><i>→</i><div><b>依頼主が利用</b><span>商品掲載</span><span>社内共有</span></div><figcaption>事務・情報整理は、ばらばらな情報を使える形へそろえる仕事です。</figcaption></figure>
+<h3 id="この結果になった理由">この結果になった理由</h3>
+<p>結果画面では、次のような実回答から最大2つを表示します。</p>
+<ul>
+<li>一覧や会議メモを受け取りたい</li>
+<li>整った表や会議メモを完成させたい</li>
+</ul>
+<p>事務・情報整理は、同じ基準で複数件をそろえ、抜けや未確認を見つける作業が中心だからです。</p>
+<h3 id="仕事を始める前に足りない準備">仕事を始める前に足りない準備</h3>
+<ul>
+<li>入力件数と必要な項目を確認する</li>
+<li>元資料と出力を結ぶIDを残す</li>
+<li>個人情報、社外秘、AIへ渡せない情報を確認する</li>
+<li>納品形式と、確認が必要な項目の書き方を決める</li>
+</ul>
+<h3 id="最初の練習">最初の練習</h3>
+<p>架空の商品5件を、商品ID、商品名、説明、仕様、確認事項の5列へそろえます。</p>
+<p>または、架空の会議メモから、決まったこと、担当、期限、未決定を分けます。完成後は、元の5件または会議メモへ戻って照合します。</p>
+<h3 id="仕事を探す言葉">仕事を探す言葉</h3>
+<ul>
+<li>商品データ 整理</li>
+<li>オンラインアシスタント 情報整理</li>
+<li>会議メモ 議事録 整理</li>
+<li>データ入力 AI 利用可</li>
+</ul>
+<p>募集では、件数、入力資料、必要な列、納品形式、期限、連絡時間、AI利用、個人情報の扱いを読みます。</p>
+<h3 id="次に読む章">次に読む章</h3>
+<ul>
+<li><a href="https://yuuyann0318.github.io/ai-automation-work-guide/">AI×自動化ワークの始め方</a></li>
+<li><a href="https://yuuyann0318.github.io/ai-fukugyo-startbook-50/#job-reply">AI副業スタートBOOK：事務・情報整理</a></li>
+</ul>
+<hr></div></template><template id="res-video"><div class="result"><img src="assets/display/result-video-v1.jpg" alt="撮影素材から短い動画を編集する作業場面"><p class="notice">画像はイメージです</p><h2>短尺動画編集</h2><h3 id="誰が-何のために頼む仕事">誰が、何のために頼む仕事？</h3>
+<p>お店、講師、発信者、会社のSNS担当者が、撮影した素材を短い動画として公開するために頼みます。</p>
+<p>依頼主から台本、撮影素材、参考動画、長さ、投稿先を受け取り、不要部分を切り、字幕と音量を整えたMP4を返します。AIや編集キットは文字起こしや定型編集を手伝います。人は内容、権利、字幕、音、映像を最後まで確認します。</p>
+<p>対価の対象は、依頼条件を満たし、依頼主が確認できる完成MP4です。構成案だけで終わる仕事ではありません。</p>
+<figure class="visual track result-flow"><div class="track-row"><div class="node">撮影素材</div><div class="node">カット・字幕・音</div><div class="node">初稿MP4</div><div class="node">依頼主が確認</div><div class="node">修正</div><div class="node">完成MP4</div><div class="node">SNSで利用</div></div><figcaption>短尺動画編集の完成まで</figcaption></figure>
+<h3 id="この結果になった理由">この結果になった理由</h3>
+<p>結果画面では、次のような実回答から最大2つを表示します。</p>
+<ul>
+<li>台本と撮影済み動画を受け取りたい</li>
+<li>字幕つきの短いMP4を完成させたい</li>
+</ul>
+<p>動画編集は、話す内容と画面を合わせ、字幕・音・見え方を何度も再生して直す作業だからです。</p>
+<h3 id="仕事を始める前に足りない準備">仕事を始める前に足りない準備</h3>
+<ul>
+<li>受け取る動画の合計の長さ、完成後の長さ、縦横、納品形式を確認する</li>
+<li>カット、字幕、BGM、画像挿入の範囲を決める</li>
+<li>素材の権利と、AIへ渡せる情報かを確認する</li>
+<li>初稿期限、修正回数、素材追加時の扱いを決める</li>
+</ul>
+<h3 id="最初の練習">最初の練習</h3>
+<p>同梱の練習素材からMP4を作り、字幕を1か所直します。</p>
+<p>修正前「食べれる場所でもある」から、修正後「食べられる場所でもある」へ直します。前後の字幕と動画全体を再生し、音ずれや文字切れがないか確認します。</p>
+<p>この動画編集キットは、Apple Silicon搭載Macで実機確認しています。Windows、Linux、Intel Macは実機未確認です。</p>
+<h3 id="仕事を探す言葉">仕事を探す言葉</h3>
+<ul>
+<li>ショート動画 編集</li>
+<li>リール 動画編集</li>
+<li>縦動画 字幕 編集</li>
+</ul>
+<p>募集では、元動画の長さ、完成後の長さ、本数、カット、字幕、BGM、画像、投稿先、初稿期限、修正回数、納品形式、AI利用の条件を読みます。</p>
+<h3 id="次に読む章">次に読む章</h3>
+<ul>
+<li><a href="https://yuuyann0318.github.io/codex-video-editing-kit/">ChatGPT×動画編集キット</a></li>
+<li><a href="https://yuuyann0318.github.io/ai-fukugyo-startbook-50/#job-video">AI副業スタートBOOK：短尺動画編集</a></li>
+</ul>
+<hr></div></template><section class="content pdf-only"><h3 id="最初に試す仕事を-5つから選びましょう">最初に試す仕事を、5つから選びましょう</h3>
+<p>AI副業では、お店や事業者から文章・画像・資料・動画の制作を頼まれます。</p>
+<p>AIで下書きや整理を進め、人が確認し、使える形で納品します。その作業と完成物に対して、合意した報酬を受け取ります。</p>
+<p>「仕事の名前を見ても、何を頼まれるのか分からない」</p>
+<p>「やったことがないのに、向いている仕事なんて選べない」</p>
+<p>そう感じるのは普通です。</p>
+<p>この診断では、経験、好み、使える時間、端末から、最初に比べる仕事を2つ提案します。結果には、買い手、頼まれる作業、納品物、最初の練習、仕事を探す言葉まで表示します。</p>
+<p>診断は、向いている職業や収入を決めるものではありません。まだ試していない5つから、最初の練習を選ぶ入口です。</p>
+<figure class="visual visual-scene"><img src="assets/display/client-brief-five-deliverables-v2.png" alt="依頼主が初心者へ仕事の依頼書を渡し、5種類の完成物を確認している場面"><div class="overlay-flow"><b>依頼主の困り事</b><span>→</span><b>人がAIを道具にして制作</b><span>→</span><b>5種類の完成物</b></div><div class="deliverables"><span>商品紹介文</span><span>SNS投稿文</span><span>告知画像</span><span>整った表</span><span>短い動画</span></div><figcaption>AIは制作を助ける道具。依頼主が使う完成物を、人が確認して納品します。画像はイメージです</figcaption></figure>
+<h3 id="先に-5つの仕事を見てください">先に、5つの仕事を見てください</h3>
+<p>結果には、この5つの中から2候補が出ます。</p>
+<div class="keep-group"><h4 id="1-文章作成-商品紹介文">1．文章作成（商品紹介文）</h4><ul>
+<li>買い手：ネットショップ、教室、小さな会社</li>
+<li>頼まれること：商品やサービスの資料を、読める説明へ整える</li>
+<li>納品物：商品説明文、サービス紹介文、確認事項の一覧</li>
+<li>対価の対象：資料に沿った文章と、人が確認した完成原稿</li>
+</ul></div>
+<div class="keep-group"><h4 id="2-SNS投稿サポート">2．SNS投稿サポート</h4><ul>
+<li>買い手：お店、個人事業主、会社のSNS担当者</li>
+<li>頼まれること：新商品や営業案内を、投稿文へ整える</li>
+<li>納品物：投稿文、見出し、必要に応じたハッシュタグ案</li>
+<li>対価の対象：目的と読者に合い、事実確認を終えた投稿原稿</li>
+</ul></div>
+<div class="keep-group"><h4 id="3-告知画像制作">3．告知画像制作</h4><ul>
+<li>買い手：お店、教室、イベント主催者</li>
+<li>頼まれること：写真、原稿、日時を、1枚で伝わる画像へまとめる</li>
+<li>納品物：PNGまたはJPGの画像</li>
+<li>対価の対象：文字が読め、日時や内容が正しい完成画像</li>
+</ul></div>
+<div class="keep-group"><h4 id="4-事務・情報整理">4．事務・情報整理</h4><ul>
+<li>買い手：ネットショップ、会社、個人事業主</li>
+<li>頼まれること：複数の商品情報、会議メモ、問い合わせ内容を同じ基準で整理する</li>
+<li>納品物：表、会議メモ、確認事項の一覧</li>
+<li>対価の対象：元資料と照合され、仕事に使える形へ整った資料</li>
+</ul></div>
+<div class="keep-group"><h4 id="5-短尺動画編集">5．短尺動画編集</h4><ul>
+<li>買い手：お店、講師、発信者、会社のSNS担当者</li>
+<li>頼まれること：撮影済みの動画を切り、字幕と音量を整える</li>
+<li>納品物：指定の長さ・向きにした、スマホなどで再生できるMP4動画</li>
+<li>対価の対象：最後まで再生確認され、依頼条件を満たした動画ファイル</li>
+</ul></div>
+<figure class="visual matrix"><div class="matrix-head"><b>仕事</b><b>受け取る材料</b><b>人とAIの作業</b><b>納品物</b></div><div class="matrix-row"><b>文章作成</b><span>商品資料</span><span>下書き→人が照合</span><strong>商品紹介文</strong></div><div class="matrix-row"><b>SNS投稿</b><span>お知らせメモ</span><span>2案→人が選ぶ</span><strong>投稿文</strong></div><div class="matrix-row"><b>告知画像</b><span>原稿・写真</span><span>配置→スマホ確認</span><strong>PNG画像</strong></div><div class="matrix-row"><b>事務整理</b><span>ばらばらな情報</span><span>同じ列へ整理</span><strong>表・確認事項</strong></div><div class="matrix-row"><b>短尺動画</b><span>撮影素材</span><span>カット・字幕・音</span><strong>完成MP4</strong></div><figcaption>5つとも「材料を受け取り、作って確認し、完成物を渡す」仕事です。</figcaption></figure>
+<h3 id="仕事になるまでの流れは同じです">仕事になるまでの流れは同じです</h3>
+<p>仕事によって作る物は違っても、受注から報酬までの流れは似ています。</p>
+<ol>
+<li>募集を読む、またはサービスを出品する</li>
+<li>応募・相談で、できる範囲と見本を伝える</li>
+<li>納品物、期限、修正、AI利用、報酬を合意する</li>
+<li>依頼主が報酬を先に預ける「仮払い」など、利用サービスの開始条件を確認する</li>
+<li>依頼主から材料を受け取る</li>
+<li>AIで下書きし、人が元資料と照合する</li>
+<li>最初の確認用に作った版「初稿」を見せ、合意した範囲を修正する</li>
+<li>完成物を納品する</li>
+<li>依頼主が納品物を確認する「検収」のあと、報酬を受け取る</li>
+</ol>
+<p>クラウドワークスの固定報酬制プロジェクトでは、契約後に発注者が仮払いし、受注者は仮払いを確認してから仕事を始めます。納品後は依頼主が検収し、支払いが確定します。依頼形式によって流れは違うため、使うサービスの案内を確認してください。</p>
+<p>練習作品を作っただけで、受注や報酬が決まるわけではありません。診断結果の練習は、見本を作れるか、自分が確認作業を続けられそうかを見るために使います。</p>
+<figure class="visual commerce-map"><div class="commerce-phase"><b>受注前</b><div><div class="node">募集を探す</div><div class="node">応募する</div><div class="node">条件に合意</div><div class="node">仮払い確認</div></div></div><div class="commerce-phase"><b>制作</b><div><div class="node">材料を受取</div><div class="node"><b>人＋AIで制作</b></div><div class="node">修正する</div></div></div><div class="commerce-phase"><b>納品と支払</b><div><div class="node">納品する</div><div class="node">検収</div><div class="node">報酬受取</div></div></div><figcaption>上から順に進みます。AIは取引全体ではなく、制作工程の中で使います。</figcaption></figure>
+<h3 id="8問に答えてください">8問に答えてください</h3>
+<p>正解はありません。今の状態に近いものを選んでください。</p>
+<div class="keep-group"><h4 id="1-頼まれたら-どちらを先に試したいですか">1．頼まれたら、どちらを先に試したいですか？</h4><ul>
+<li>文章や情報を整える</li>
+<li>写真、色、映像を整える</li>
+</ul></div>
+<div class="keep-group"><h4 id="2-元資料と完成物を見比べる作業は">2．元資料と完成物を見比べる作業は？</h4><ul>
+<li>1件ずつ、言葉を確認したい</li>
+<li>複数件を、同じ項目で確認したい</li>
+<li>画面を見ながら、見た目や音を確認したい</li>
+</ul></div>
+<div class="keep-group"><h4 id="3-普段の経験で近いものは">3．普段の経験で近いものは？</h4><ul>
+<li>商品やサービスを人へ説明する</li>
+<li>短い連絡文やSNSを書く</li>
+<li>写真や案内を見やすくする</li>
+<li>表、予定、会議内容を整理する</li>
+<li>動画を見て字幕や音の違いに気づく</li>
+</ul></div>
+<div class="keep-group"><h4 id="4-最初の練習に使えそうな時間は">4．最初の練習に使えそうな時間は？</h4><ul>
+<li>15分前後</li>
+<li>30分前後</li>
+<li>1時間以上</li>
+</ul></div>
+<p>時間は、稼げるかどうかの判定には使いません。最初の練習量を決めるために使います。</p>
+<div class="keep-group"><h4 id="5-修正を頼まれたとき-どの作業なら場所を見つけやすそうですか">5．修正を頼まれたとき、どの作業なら場所を見つけやすそうですか？</h4><ul>
+<li>文章の1文を直す</li>
+<li>表の1行を直す</li>
+<li>画像の文字や色を直す</li>
+<li>動画の1場面や字幕を直す</li>
+</ul></div>
+<div class="keep-group"><h4 id="6-依頼主から受け取りたい材料は">6．依頼主から受け取りたい材料は？</h4><ul>
+<li>商品・サービスの資料</li>
+<li>お知らせのメモ</li>
+<li>写真と掲載する文字</li>
+<li>複数件の一覧や会議メモ</li>
+<li>台本と撮影済み動画</li>
+</ul></div>
+<div class="keep-group"><h4 id="7-主に使える端末は">7．主に使える端末は？</h4><ul>
+<li>スマホ</li>
+<li>スマホとパソコン</li>
+<li>パソコン</li>
+</ul></div>
+<p>端末は、能力の判定ではありません。練習方法と、今できる範囲を分けるために使います。</p>
+<div class="keep-group"><h4 id="8-最初に完成させたいものは">8．最初に完成させたいものは？</h4><ul>
+<li>商品説明文</li>
+<li>SNS投稿文</li>
+<li>告知画像</li>
+<li>整った表や会議メモ</li>
+<li>字幕つきの短いMP4</li>
+</ul></div>
+<figure class="visual track compact"><div class="track-row"><div class="node">1 / 8<br>質問</div><div class="node">回答を選ぶ</div><div class="node">戻って見直す</div><div class="node">2候補を表示</div></div><figcaption>回答は戻っても保持されます。</figcaption></figure>
+<h3 id="結果の読み方">結果の読み方</h3>
+<p>1位と2位は、今の回答から最初に比べる2候補です。</p>
+<p>「向いているから稼げる」という意味ではありません。回答と仕事のつながり、足りない準備、最初の練習を見て、実際に試すか決めましょう。</p>
+<p>結果画面には、点数に影響した実際の回答から、理由を最大2つ表示します。選んでいない理由を、AIが勝手に作ることはありません。</p>
+<hr>
+<h2 id="結果1-文章作成-商品紹介文">結果1：文章作成（商品紹介文）</h2>
+<h3 id="誰が-何のために頼む仕事">誰が、何のために頼む仕事？</h3>
+<p>ネットショップや教室の運営者が、商品の特徴や利用条件をお客さまへ伝えるために頼みます。</p>
+<p>依頼主から商品資料、仕様、注意事項を受け取り、商品説明文と確認事項を返します。AIが文章の順番を下書きし、人が元資料にない内容を足していないか確認します。</p>
+<p>対価の対象は、AIの回答そのものではありません。依頼主の資料に沿い、掲載前に使える所まで整えた原稿です。</p>
+<figure class="visual track result-flow"><div class="track-row"><div class="node">商品資料</div><div class="node">AIの下書き</div><div class="node">人が照合</div><div class="node">紹介文＋確認事項</div><div class="node">商品ページで利用</div></div><figcaption>文章作成（商品紹介文）の完成まで</figcaption></figure>
+<h3 id="この結果になった理由">この結果になった理由</h3>
+<p>結果画面では、次のような実回答から最大2つを表示します。</p>
+<ul>
+<li>商品・サービスの資料を受け取りたい</li>
+<li>商品説明文を完成させたい</li>
+</ul>
+<p>文章作成（商品紹介文）は、確認できた情報を読み手が知りたい順へ並べ、未確認のことを分ける作業が中心だからです。</p>
+<h3 id="仕事を始める前に足りない準備">仕事を始める前に足りない準備</h3>
+<ul>
+<li>商品名、内容物、使い方、注意を資料から拾う</li>
+<li>「必ず」「誰でも」など、根拠のない断定を入れない</li>
+<li>依頼主へ確認する項目を残す</li>
+<li>納品するファイル形式と修正回数を確認する</li>
+</ul>
+<h3 id="最初の練習">最初の練習</h3>
+<p>架空の商品「おうちバジル栽培セット」の資料から、次の2点を作ります。</p>
+<ol>
+<li>120〜180字の商品説明文</li>
+<li>未確認のことをまとめた確認事項</li>
+</ol>
+<p>入力にない価格、収穫日数、効果は足しません。完成後は、資料と文章を1行ずつ見比べます。</p>
+<h3 id="仕事を探す言葉">仕事を探す言葉</h3>
+<ul>
+<li>商品説明文 作成</li>
+<li>EC 商品登録 文章</li>
+<li>サービス紹介文 作成</li>
+</ul>
+<p>募集では、商品数、1件あたりの長さ、元資料、画像作成の有無、納品形式、期限、修正回数、AI利用の条件を読みます。</p>
+<h3 id="次に読む章">次に読む章</h3>
+<ul>
+<li><a href="https://yuuyann0318.github.io/ai-fukugyo-startbook-50/#job-product">AI副業スタートBOOK：文章作成（商品紹介文）</a></li>
+<li>複数の商品を同じ表へ整える仕事は、特典04「AI×自動化ワークの始め方」で練習できます。</li>
+</ul>
+<hr>
+<h2 id="結果2-SNS投稿サポート">結果2：SNS投稿サポート</h2>
+<h3 id="誰が-何のために頼む仕事">誰が、何のために頼む仕事？</h3>
+<p>お店や個人事業主が、新商品、営業案内、イベントをSNSで知らせるために頼みます。</p>
+<p>依頼主から目的、読者、確認済み情報、言葉の雰囲気を受け取り、投稿文を返します。AIは構成案を出せますが、事実、店の言い方、読んだ人にしてほしい行動は人が確認します。</p>
+<p>対価の対象は、投稿の目的に合い、依頼主が確認できる形にした原稿です。投稿作業や画像制作まで含むかは、別に合意します。</p>
+<figure class="visual track result-flow"><div class="track-row"><div class="node">お知らせメモ</div><div class="node">投稿文2案</div><div class="node">人が確認</div><div class="node">確定原稿</div><div class="node">依頼主が投稿</div></div><figcaption>SNS投稿サポートの完成まで</figcaption></figure>
+<h3 id="この結果になった理由">この結果になった理由</h3>
+<p>結果画面では、次のような実回答から最大2つを表示します。</p>
+<ul>
+<li>お知らせのメモを受け取りたい</li>
+<li>SNS投稿文を完成させたい</li>
+</ul>
+<p>SNS投稿は、伝えたい情報を短くまとめ、読んだ人が次に何をすればよいかまで整える作業だからです。</p>
+<h3 id="仕事を始める前に足りない準備">仕事を始める前に足りない準備</h3>
+<ul>
+<li>投稿の目的と読者を確認する</li>
+<li>店名、商品名、日時、申込方法を元資料へ戻す</li>
+<li>店の過去投稿から、言葉の雰囲気を確認する</li>
+<li>文章だけか、画像・予約投稿・返信まで含むか分ける</li>
+</ul>
+<h3 id="最初の練習">最初の練習</h3>
+<p>架空カフェの「10月限定・焼きりんごトースト・毎日11時から・なくなり次第終了」というメモから、投稿文を1案作ります。</p>
+<p>依頼メモにない価格、予約、個数は足しません。作った文章は「架空の練習例」と書いて保存します。</p>
+<h3 id="仕事を探す言葉">仕事を探す言葉</h3>
+<ul>
+<li>SNS 投稿文 作成</li>
+<li>Instagram キャプション 作成</li>
+<li>店舗 SNS 運用補助</li>
+</ul>
+<p>募集では、投稿数、文字量、画像作成の有無、投稿代行の有無、確認方法、修正回数、AI利用の条件を読みます。</p>
+<h3 id="次に読む章">次に読む章</h3>
+<ul>
+<li><a href="https://yuuyann0318.github.io/ai-fukugyo-startbook-50/#job-sns">AI副業スタートBOOK：SNS投稿</a></li>
+</ul>
+<hr>
+<h2 id="結果3-告知画像制作">結果3：告知画像制作</h2>
+<h3 id="誰が-何のために頼む仕事">誰が、何のために頼む仕事？</h3>
+<p>お店、教室、イベント主催者が、日時や内容を1枚で伝えるために頼みます。</p>
+<p>依頼主から用途、画像サイズ、原稿、写真、色、ロゴを受け取り、PNGやJPGで返します。AIは背景案を作れます。人は正しい文字を重ね、読みやすさと日時を確認します。</p>
+<p>対価の対象は、依頼した用途で使える完成画像です。AIが作った背景だけを渡して終わりではありません。</p>
+<figure class="visual track result-flow"><div class="track-row"><div class="node">原稿・写真・サイズ</div><div class="node">背景案</div><div class="node">文字を配置</div><div class="node">スマホ確認</div><div class="node">PNG納品</div></div><figcaption>告知画像制作の完成まで</figcaption></figure>
+<h3 id="この結果になった理由">この結果になった理由</h3>
+<p>結果画面では、次のような実回答から最大2つを表示します。</p>
+<ul>
+<li>写真と掲載する文字を受け取りたい</li>
+<li>告知画像を完成させたい</li>
+</ul>
+<p>告知画像は、写真と文字の優先順位を決め、離れて見ても内容が伝わるように直す作業だからです。</p>
+<h3 id="仕事を始める前に足りない準備">仕事を始める前に足りない準備</h3>
+<ul>
+<li>用途と画像サイズを確認する</li>
+<li>原稿、写真、ロゴの利用条件を確認する</li>
+<li>AI背景へ読めない文字を入れない</li>
+<li>初稿の出し方、修正回数、納品形式を決める</li>
+</ul>
+<h3 id="最初の練習">最初の練習</h3>
+<p>架空のハーブ教室を題材に、AIで文字なし背景を作り、Canvaなどで「ハーブの育て方教室」「11月9日」「10時から」を重ねます。</p>
+<p>完成画像をスマホで開き、見出しと日時が読めるか確認します。架空例であることも一緒に保存します。</p>
+<h3 id="仕事を探す言葉">仕事を探す言葉</h3>
+<ul>
+<li>SNS 告知画像 作成</li>
+<li>Instagram 画像 制作</li>
+<li>バナー 制作</li>
+</ul>
+<p>募集では、用途、縦横サイズ、原稿、写真、ロゴ、初稿期限、修正回数、納品形式、編集データの有無を読みます。</p>
+<h3 id="次に読む章">次に読む章</h3>
+<ul>
+<li><a href="https://yuuyann0318.github.io/smartphone-ai-design-guide/">スマホ×AIデザインの稼ぎ方 完全解説</a></li>
+</ul>
+<hr>
+<h2 id="結果4-事務・情報整理">結果4：事務・情報整理</h2>
+<h3 id="誰が-何のために頼む仕事">誰が、何のために頼む仕事？</h3>
+<p>ネットショップ、会社、個人事業主が、ばらばらの情報を仕事で使える表や資料にするために頼みます。</p>
+<p>依頼主から商品一覧、会議メモ、問い合わせ内容などを受け取り、指定された項目で整理します。AIは分類や下書きを手伝います。人は件数、数字、固有名詞、未確認事項を元資料と照合します。</p>
+<p>対価の対象は、依頼主が次の作業に使える表やメモです。AIへ1回入れて終わる仕事ではありません。</p>
+<figure class="visual three-stage"><div><b>材料</b><span>5商品のばらばら情報</span><span>走り書きの会議メモ</span></div><i>→</i><div><b>完成物</b><span>同じ列の表</span><span>決定・担当・期限が見えるメモ</span></div><i>→</i><div><b>依頼主が利用</b><span>商品掲載</span><span>社内共有</span></div><figcaption>事務・情報整理は、ばらばらな情報を使える形へそろえる仕事です。</figcaption></figure>
+<h3 id="この結果になった理由">この結果になった理由</h3>
+<p>結果画面では、次のような実回答から最大2つを表示します。</p>
+<ul>
+<li>一覧や会議メモを受け取りたい</li>
+<li>整った表や会議メモを完成させたい</li>
+</ul>
+<p>事務・情報整理は、同じ基準で複数件をそろえ、抜けや未確認を見つける作業が中心だからです。</p>
+<h3 id="仕事を始める前に足りない準備">仕事を始める前に足りない準備</h3>
+<ul>
+<li>入力件数と必要な項目を確認する</li>
+<li>元資料と出力を結ぶIDを残す</li>
+<li>個人情報、社外秘、AIへ渡せない情報を確認する</li>
+<li>納品形式と、確認が必要な項目の書き方を決める</li>
+</ul>
+<h3 id="最初の練習">最初の練習</h3>
+<p>架空の商品5件を、商品ID、商品名、説明、仕様、確認事項の5列へそろえます。</p>
+<p>または、架空の会議メモから、決まったこと、担当、期限、未決定を分けます。完成後は、元の5件または会議メモへ戻って照合します。</p>
+<h3 id="仕事を探す言葉">仕事を探す言葉</h3>
+<ul>
+<li>商品データ 整理</li>
+<li>オンラインアシスタント 情報整理</li>
+<li>会議メモ 議事録 整理</li>
+<li>データ入力 AI 利用可</li>
+</ul>
+<p>募集では、件数、入力資料、必要な列、納品形式、期限、連絡時間、AI利用、個人情報の扱いを読みます。</p>
+<h3 id="次に読む章">次に読む章</h3>
+<ul>
+<li><a href="https://yuuyann0318.github.io/ai-automation-work-guide/">AI×自動化ワークの始め方</a></li>
+<li><a href="https://yuuyann0318.github.io/ai-fukugyo-startbook-50/#job-reply">AI副業スタートBOOK：事務・情報整理</a></li>
+</ul>
+<hr>
+<h2 id="結果5-短尺動画編集">結果5：短尺動画編集</h2>
+<h3 id="誰が-何のために頼む仕事">誰が、何のために頼む仕事？</h3>
+<p>お店、講師、発信者、会社のSNS担当者が、撮影した素材を短い動画として公開するために頼みます。</p>
+<p>依頼主から台本、撮影素材、参考動画、長さ、投稿先を受け取り、不要部分を切り、字幕と音量を整えたMP4を返します。AIや編集キットは文字起こしや定型編集を手伝います。人は内容、権利、字幕、音、映像を最後まで確認します。</p>
+<p>対価の対象は、依頼条件を満たし、依頼主が確認できる完成MP4です。構成案だけで終わる仕事ではありません。</p>
+<figure class="visual track result-flow"><div class="track-row"><div class="node">撮影素材</div><div class="node">カット・字幕・音</div><div class="node">初稿MP4</div><div class="node">依頼主が確認</div><div class="node">修正</div><div class="node">完成MP4</div><div class="node">SNSで利用</div></div><figcaption>短尺動画編集の完成まで</figcaption></figure>
+<h3 id="この結果になった理由">この結果になった理由</h3>
+<p>結果画面では、次のような実回答から最大2つを表示します。</p>
+<ul>
+<li>台本と撮影済み動画を受け取りたい</li>
+<li>字幕つきの短いMP4を完成させたい</li>
+</ul>
+<p>動画編集は、話す内容と画面を合わせ、字幕・音・見え方を何度も再生して直す作業だからです。</p>
+<h3 id="仕事を始める前に足りない準備">仕事を始める前に足りない準備</h3>
+<ul>
+<li>受け取る動画の合計の長さ、完成後の長さ、縦横、納品形式を確認する</li>
+<li>カット、字幕、BGM、画像挿入の範囲を決める</li>
+<li>素材の権利と、AIへ渡せる情報かを確認する</li>
+<li>初稿期限、修正回数、素材追加時の扱いを決める</li>
+</ul>
+<h3 id="最初の練習">最初の練習</h3>
+<p>同梱の練習素材からMP4を作り、字幕を1か所直します。</p>
+<p>修正前「食べれる場所でもある」から、修正後「食べられる場所でもある」へ直します。前後の字幕と動画全体を再生し、音ずれや文字切れがないか確認します。</p>
+<p>この動画編集キットは、Apple Silicon搭載Macで実機確認しています。Windows、Linux、Intel Macは実機未確認です。</p>
+<h3 id="仕事を探す言葉">仕事を探す言葉</h3>
+<ul>
+<li>ショート動画 編集</li>
+<li>リール 動画編集</li>
+<li>縦動画 字幕 編集</li>
+</ul>
+<p>募集では、元動画の長さ、完成後の長さ、本数、カット、字幕、BGM、画像、投稿先、初稿期限、修正回数、納品形式、AI利用の条件を読みます。</p>
+<h3 id="次に読む章">次に読む章</h3>
+<ul>
+<li><a href="https://yuuyann0318.github.io/codex-video-editing-kit/">ChatGPT×動画編集キット</a></li>
+<li><a href="https://yuuyann0318.github.io/ai-fukugyo-startbook-50/#job-video">AI副業スタートBOOK：短尺動画編集</a></li>
+</ul>
+<hr>
+<h2 id="1位と2位を比べて-1つ試してください">1位と2位を比べて、1つ試してください</h2>
+<p>点数の差が小さいときは、2つとも結果を見ましょう。</p>
+<p>比べるのは、この4点です。</p>
+<ul>
+<li>依頼主から受け取る材料を理解できるか</li>
+<li>完成物を自分で確認できそうか</li>
+<li>今の端末で最初の練習ができるか</li>
+<li>足りない準備を覚えたいと思えるか</li>
+</ul>
+<p>迷ったら、「楽しそう」だけで決めなくて大丈夫です。元資料と完成物を見比べる場面を想像し、確認を続けられそうな方から試しましょう。</p>
+<h3 id="結果を保存する">結果を保存する</h3>
+<p>結果画面の「結果を保存」を押すと、次の内容を印刷またはPDFへ保存できます。</p>
+<ul>
+<li>1位と2位</li>
+<li>選んだ回答と提案理由</li>
+<li>買い手、依頼、納品物</li>
+<li>足りない準備</li>
+<li>最初の練習</li>
+<li>仕事を探す言葉</li>
+<li>関連する章</li>
+</ul>
+<p>保存できない場合は、画面のスクリーンショットでも大丈夫です。氏名や連絡先は入力しません。</p>
+<h3 id="今日の行動">今日の行動</h3>
+<p>1位の「最初の練習」を1回試してください。</p>
+<p>作った物には「架空の練習例」と書きます。仕事へ応募する前に、募集条件に合う見本を作れるか、修正できるか、期限と連絡条件に対応できるかを確認しましょう。</p>
+<p>診断は、仕事を決めるためではなく、試す順番を決めるために使います。</p></section></main><script>
+document.querySelectorAll('.copy').forEach(b=>b.addEventListener('click',async()=>{let t=b.parentElement.querySelector('code').innerText;await navigator.clipboard.writeText(t);b.textContent='コピーしました';setTimeout(()=>b.textContent='コピー',1600)}));
+if(new URLSearchParams(location.search).has('pdf'))document.querySelectorAll('details').forEach(d=>d.open=true);
+const Q=[["依頼の材料を受け取るなら、どれが気になりますか？", [["文章や情報", {"product": 2, "sns": 2, "office": 2}], ["写真・色・映像", {"design": 3, "video": 3}]]], ["作業の進め方は、どれが合いそうですか？", [["1件ずつ言葉を整える", {"product": 3, "sns": 2}], ["複数の情報を同じ項目で整える", {"office": 4, "product": 1}], ["見た目や音を整える", {"design": 2, "video": 3}]]], ["最初に試したい完成物は？", [["商品紹介文", {"product": 4}], ["SNS投稿文", {"sns": 4}], ["告知画像", {"design": 4}], ["整った表", {"office": 4}], ["短い動画", {"video": 4}]]], ["1回の練習に使えそうな時間は？", [["15分", {"sns": 1, "product": 1}], ["30分", {"product": 1, "sns": 1, "design": 1, "office": 1}], ["1時間", {"design": 1, "office": 1, "video": 2}]]], ["確認するなら、どれが苦になりにくいですか？", [["文章を1文ずつ", {"product": 3, "sns": 3}], ["表を1行ずつ", {"office": 4}], ["画像の文字や色", {"design": 4}], ["動画の場面や字幕", {"video": 4}]]], ["買い手を想像しやすい仕事は？", [["お店の商品紹介", {"product": 5}], ["教室や店のSNS", {"sns": 5}], ["イベント告知", {"design": 5}], ["会社や個人事業の事務", {"office": 5}], ["店や講師の短い動画", {"video": 5}]]], ["今使える道具は？", [["スマートフォン中心", {"product": 1, "sns": 2, "design": 2, "office": 1}], ["スマートフォンとパソコン", {"product": 1, "sns": 1, "design": 1, "office": 1, "video": 2}], ["パソコン中心", {"office": 2, "video": 2, "product": 1}]]], ["今日1つ試すなら？", [["商品紹介文を書く", {"product": 6}], ["SNS投稿文を整える", {"sns": 6}], ["告知画像を作る", {"design": 6}], ["表を整える", {"office": 6}], ["短い動画を編集する", {"video": 6}]]]];const names={'product': '文章作成（商品紹介文）', 'sns': 'SNS投稿サポート', 'design': '告知画像制作', 'office': '事務・情報整理', 'video': '短尺動画編集'};let idx=0,ans=Array(Q.length).fill(null);const order=['product','sns','design','office','video'];
+function draw(){qcount.textContent=`${idx+1} / ${Q.length}`;qtext.textContent=Q[idx][0];choices.innerHTML='';Q[idx][1].forEach((a,j)=>{let b=document.createElement('button');b.className='choice';b.textContent=a[0];b.setAttribute('aria-pressed',ans[idx]===j);b.onclick=()=>{ans[idx]=j;draw()};choices.append(b)});document.querySelector('.progress i').style.width=((idx+1)/Q.length*100)+'%';back.disabled=idx===0;next.textContent=idx===Q.length-1?'結果を見る':'次へ';qerror.textContent=''}
+next.onclick=()=>{if(ans[idx]===null){qerror.textContent='1つ選んでください。';return}if(idx<Q.length-1){idx++;draw();return}show()};back.onclick=()=>{if(idx>0)idx--;draw()};reset.onclick=()=>{idx=0;ans.fill(null);results.innerHTML='';draw()};
+function saveDiagnosisResult(){document.body.classList.add('printing-result');try{window.print()}finally{document.body.classList.remove('printing-result')}}
+function show(){let s=Object.fromEntries(order.map(k=>[k,0]));ans.forEach((a,i)=>Object.entries(Q[i][1][a][1]).forEach(([k,v])=>s[k]+=v));let ranked=order.map(k=>[k,s[k]]).sort((a,b)=>b[1]-a[1]||order.indexOf(a[0])-order.indexOf(b[0]));let chosen=ranked.slice(0,2);let tie=ranked[0][1]===ranked[1][1];results.innerHTML='<h2>診断結果</h2>'+(tie?'<p><strong>1位は同点です。</strong>固定の表示順で2候補を並べています。</p>':'')+'<p class="result-print-only"><strong>最初の行動：</strong>1位の「最初の練習」を1回試し、作った物に「架空の練習例」と書きます。</p>';chosen.forEach(([k])=>{let reasons=[];ans.forEach((a,i)=>{let w=Q[i][1][a][1][k]||0;if(w)reasons.push([w,i,Q[i][1][a][0]])});reasons.sort((a,b)=>b[0]-a[0]||a[1]-b[1]);let f=document.getElementById('res-'+k).content.cloneNode(true);let box=f.querySelector('.result');box.insertAdjacentHTML('afterbegin','<p><strong>この候補になった理由</strong></p><ul class="answer-reasons">'+reasons.slice(0,2).map(r=>'<li>'+r[2]+((r[1]===3||r[1]===6)?'（練習方法に関係した回答）':'')+'</li>').join('')+'</ul>');results.append(f)});results.insertAdjacentHTML('beforeend','<div class="actions"><button id="save-result" class="primary" onclick="saveDiagnosisResult()">自分の診断結果を保存</button></div>');results.scrollIntoView({behavior:'smooth'})}draw();window.__diagnosisTest={Q,ans,show,saveDiagnosisResult};</script></body></html>
